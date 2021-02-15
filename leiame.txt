@@ -1,0 +1,30 @@
+********************************************************* 
+AVA: cursos.alura.com.br
+Formação: Node.js com Express
+Curso: Rest com NodeJS: API com Express e MySQL
+Data Início: 15/02/2021
+*********************************************************
+ 
+Capítulo 01: Instalação do Node e Configuração do Express
+#npmInit, #postMan, #express, #routes, #nodemon
+
+1. Criamos o diretório:  
+        rest-nodejs
+   ...no diretório base de projeto e o adicionamos ao ambiente do VSCode;
+2. Executamos o comando dentro deste novo diretório:
+        >npm init
+   ...o que leva para o script de Configuração da nova aplicação, o que resulta na criação do arquivo:
+        @see package.json
+   Uma das perguntas feitas pelo script foi o arquivo inicial da aplicação (main), o qual definimos como: 
+        @see index.js 
+3. Instalamos o servidor Express:
+        >npm install express
+4. Modificamos o arquivo de ponto de partida (@see index.js) para carregar a função do express e inicializar
+   o servidor de aplicação na porta 3000;
+5. Criamos as primeiras rotas em index.js, respondendo ao get();
+6. Instalamos o monitor de alteração do node em ambiente de desenvolvimento: 
+        >npm install nodemon --save-dev
+   Atualizamos o script de inicialização "start" com o "nodemon":
+        @see package.json
+
+2. Capítulo 02: 
