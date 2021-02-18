@@ -27,4 +27,72 @@ Capítulo 01: Instalação do Node e Configuração do Express
    Atualizamos o script de inicialização "start" com o "nodemon":
         @see package.json
 
-2. Capítulo 02: 
+Capítulo 02: Cadatrando um atendimento
+#postMan, #bodyParser, #postMethod
+
+1. Criamos um novo diretório:
+        @see controllers
+   ...e um novo arquivo dentro deste:
+        @see controllers\atendimentos.js
+   Neste arquivo colocamos a "rota" de "atendimentos".
+2. Instalamos a lib "consign":
+        >npm install consign
+   Essa lib agrupa os módulos exportados pela aplicação
+3. Criamos o diretório "config", e colocamos todas as definições de configurações do servidor Express no
+   arquivo:
+        @see config\customExpress.js
+4. Instalamos a lib "body-parser":
+        >npm install body-parser
+   Essa lib traduz em diversos formatos o corpo das requisições vindas para a API;
+
+Capítulo 03: Persistindo nossos dados
+#mysql, #DBconnection, #migrations, #DBconectionQuery
+
+1. Instalamos a lib de conexão com o MySQL:
+        >npm install mysql
+2. Criamos um novo diretório:
+        @see infra
+   ...contendo a definição da conexão:
+        @see infra\connection.js
+3. Modificamos o arquivo
+        @see index.js
+   ...para tentar realizar a conexão com o banco de dados;
+4. Criamos o "migration" das tabelas do nosso BD em:
+        @see infra\tables.js
+5. Criamos o diretório:
+        @see models
+   ...contendo o modelo:
+        @see models\atendimentos.ts
+   ...o qual será responsável pela persistência das inoformações de atendimento
+6. Modificamos a rota Atendinentos / POST para realizar a criação do novo atendimento:
+        @see controllers\atendimentos.js
+
+Capítulo 04: Refatorando nosso código
+#migrations, #moment, #statusHttp, #businessRules
+
+1. Instalamos globalmente a lib de migrations e o seu driver mysql para nodeJS:
+        >npm install -g db-migrate
+        >npm install -g db-migrate-mysql
+2. Criamos o arquivo:
+        @see database.json
+3. Criamos nossas primeiras migration gerando DML SQL:
+        >db-migrate create createTableAtendimento --sql-file
+        >db-migrate create alterTableAtendimentoAddDates --sql-file     
+   Acrescentando as respectivas DMLs "up" & "down" em:
+        @see migrations\sqls
+4. Executamos todas as migrations criadas:
+        >db-migrate up
+5. Instalamos uma nova lib para lidar com datas horas independentemente de formato:
+        >npm install moment
+6. Inserimos algumas regras de negócio diretamente no método do modelo de atendimento:
+        @see models\atendimento.js
+
+Capítulo 05: Finalizando nossa API
+#patch, #put, #delete, #param, #validations
+
+1. Criamos uma rota pra listar todos os atendimentos
+2. Criamos uma rota para listar um atendimento em particular
+3. Criamos uma rota para alterar dados de um atendimento
+4. Criamos uma rota para excluir um atendimento
+        @see controllers\atendimentos.js
+        @see models\atendimento.js

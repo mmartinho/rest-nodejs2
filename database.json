@@ -1,0 +1,18 @@
+{
+    "dev": {
+        "host": "localhost",
+        "driver": "mysql",
+        "user": "root",
+        "password": "",
+        "database": "alura_agenda_petshop",
+        "multipleStatements": true 
+    },
+    "prod": {
+      "host": "localhost",  
+      "driver": "mysql",
+      "user": "root",
+      "password": "",
+      "database": "alura_agenda_petshop",
+      "multipleStatements": true
+    }
+}

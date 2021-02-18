@@ -1,9 +1,26 @@
-const express = require('express');
+/**
+ * Configuração do servidor de aplicação
+ */
+const customExpress = require('./config/customExpress');
+/**
+ * Tenta conexão com o BD
+ */
+const conexao = require('./infra/connection');
+conexao.connect(erro => { 
+    if(erro) {
+        console.log(erro);
+    } else {
+        console.log('Conectado no banco de dados com sucesso');
+        
+        /**
+         * Removido para usar "migrations"
+         * tables.init(conexao);
+         */
 
-const app = express();
-
-app.listen(3000, () => console.log('servidor rodando na porta 3000'));
-
-app.get('/', (req, res) => res.send('Servidor rodando, tudo ok'));
-
-app.get('/atendimentos', (req, res) => res.send('Voce está na rota atendimentos e usando o GET'));
+        /**
+         * Inicia o servidor de aplicação
+         */ 
+        const app = customExpress();
+        app.listen(3000, () => console.log('Servidor rodando na porta 3000'));
+    }
+});
