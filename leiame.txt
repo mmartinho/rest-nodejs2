@@ -13,14 +13,16 @@ Capítulo 01: Instalação do Node e Configuração do Express
    ...no diretório base de projeto e o adicionamos ao ambiente do VSCode;
 2. Executamos o comando dentro deste novo diretório:
         >npm init
-   ...o que leva para o script de Configuração da nova aplicação, o que resulta na criação do arquivo:
+   ...o que leva para o script de Configuração da nova aplicação, o que resulta na 
+   criação do arquivo:
         @see package.json
-   Uma das perguntas feitas pelo script foi o arquivo inicial da aplicação (main), o qual definimos como: 
+   Uma das perguntas feitas pelo script foi o arquivo inicial da aplicação (main), o qual 
+   definimos como: 
         @see index.js 
 3. Instalamos o servidor Express:
         >npm install express
-4. Modificamos o arquivo de ponto de partida (@see index.js) para carregar a função do express e inicializar
-   o servidor de aplicação na porta 3000;
+4. Modificamos o arquivo de ponto de partida (@see index.js) para carregar a função do 
+   express e inicializar o servidor de aplicação na porta 3000;
 5. Criamos as primeiras rotas em index.js, respondendo ao get();
 6. Instalamos o monitor de alteração do node em ambiente de desenvolvimento: 
         >npm install nodemon --save-dev
@@ -38,8 +40,8 @@ Capítulo 02: Cadatrando um atendimento
 2. Instalamos a lib "consign":
         >npm install consign
    Essa lib agrupa os módulos exportados pela aplicação
-3. Criamos o diretório "config", e colocamos todas as definições de configurações do servidor Express no
-   arquivo:
+3. Criamos o diretório "config", e colocamos todas as definições de configurações do 
+   servidor Express no arquivo:
         @see config\customExpress.js
 4. Instalamos a lib "body-parser":
         >npm install body-parser
@@ -96,3 +98,20 @@ Capítulo 05: Finalizando nossa API
 4. Criamos uma rota para excluir um atendimento
         @see controllers\atendimentos.js
         @see models\atendimento.js
+
+********************************* OBSEVAÇÕES ******************************************
+
+1. Para DEBUGAR nossa app NodeJS usando o VSCode, em:
+        @see package.json
+   ...alteramos o script de inicialização do nodemon para incluir a flag --inspect:
+        "start": "nodemon --inspect index.js";
+2. E, no VSCode, criamos o:
+        @see .vscode\launch.json
+   ...usando a opção do VSCode "Run", na select superior "Add config <DirProjeto>".
+   Isso cria o arquivo launch.json. 
+   Apagamos a o objeto dafult que estava no array "configurations", e, usando Ctr+Space, 
+   selecionamos "NodeJS Attach by Process ID". Isso recria o objeto de "configurations", 
+   monitorando o processo que será lançado ao clicar o "RUN/DEBUG".
+   Uma barra laranja inferior será mostrada assim que o debug iniciar.
+   Para finalizar a sessão debug, basta clicar em "disconnect" na barra de ferramentas 
+   de controle. 

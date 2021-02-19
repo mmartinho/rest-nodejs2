@@ -3,5 +3,8 @@
  * @returns void
  */
 module.exports = (app => {
-    app.get('/', (req, res) => res.send('Acessando a rota raiz com o GET'));
+    app.get('/', (req, res) => { 
+        console.log(req);
+        res.send('Acessando a rota raiz com o GET'); 
+    });
 });
