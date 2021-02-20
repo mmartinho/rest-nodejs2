@@ -4,7 +4,7 @@
         "driver": "mysql",
         "user": "root",
         "password": "",
-        "database": "alura_agenda_petshop",
+        "database": "alura_agenda_petshop2",
         "multipleStatements": true 
     },
     "prod": {
@@ -12,7 +12,7 @@
       "driver": "mysql",
       "user": "root",
       "password": "",
-      "database": "alura_agenda_petshop",
+      "database": "alura_agenda_petshop2",
       "multipleStatements": true
     }
 }
