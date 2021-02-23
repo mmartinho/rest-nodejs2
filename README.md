@@ -1,2 +1,2 @@
-# rest-nodejs
-Aplicação desenvolvida no curso da Alura "Rest com NodeJS: API com Express em MySQL"
+# rest-nodejs2
+Aplicação desenvolvida no curso da Alura "NodeJS: Stream de dados e Repositório"
