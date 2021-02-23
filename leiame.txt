@@ -1,117 +1,72 @@
 ********************************************************* 
 AVA: cursos.alura.com.br
 Formação: Node.js com Express
-Curso: Rest com NodeJS: API com Express e MySQL
-Data Início: 15/02/2021
+Curso: NodeJS: Stream de dados e Repositório
+Data Início: 19/02/2021
 *********************************************************
  
-Capítulo 01: Instalação do Node e Configuração do Express
-#npmInit, #postMan, #express, #routes, #nodemon
+Capítulo 01: Stream de dados
+#createReadStream, #createWriteStream, #pipe, #onEvent, #eventLoop
 
-1. Criamos o diretório:  
-        rest-nodejs
-   ...no diretório base de projeto e o adicionamos ao ambiente do VSCode;
-2. Executamos o comando dentro deste novo diretório:
-        >npm init
-   ...o que leva para o script de Configuração da nova aplicação, o que resulta na 
-   criação do arquivo:
-        @see package.json
-   Uma das perguntas feitas pelo script foi o arquivo inicial da aplicação (main), o qual 
-   definimos como: 
-        @see index.js 
-3. Instalamos o servidor Express:
-        >npm install express
-4. Modificamos o arquivo de ponto de partida (@see index.js) para carregar a função do 
-   express e inicializar o servidor de aplicação na porta 3000;
-5. Criamos as primeiras rotas em index.js, respondendo ao get();
-6. Instalamos o monitor de alteração do node em ambiente de desenvolvimento: 
-        >npm install nodemon --save-dev
-   Atualizamos o script de inicialização "start" com o "nodemon":
-        @see package.json
+1. Criamos o script executado diretamente pelo node:
+        @see arquivos\uploadDeArquivos.js
+        >node .\arquivos\uploadDeArquivos.js
 
-Capítulo 02: Cadatrando um atendimento
-#postMan, #bodyParser, #postMethod
+Capítulo 02: Manipulação de arquivos
+#migrations, #validation, #connection, #query, #route, #expressGet, #expressPost, #expressPatch, 
+#expressDelete 
 
-1. Criamos um novo diretório:
-        @see controllers
-   ...e um novo arquivo dentro deste:
-        @see controllers\atendimentos.js
-   Neste arquivo colocamos a "rota" de "atendimentos".
-2. Instalamos a lib "consign":
-        >npm install consign
-   Essa lib agrupa os módulos exportados pela aplicação
-3. Criamos o diretório "config", e colocamos todas as definições de configurações do 
-   servidor Express no arquivo:
-        @see config\customExpress.js
-4. Instalamos a lib "body-parser":
-        >npm install body-parser
-   Essa lib traduz em diversos formatos o corpo das requisições vindas para a API;
-
-Capítulo 03: Persistindo nossos dados
-#mysql, #DBconnection, #migrations, #DBconectionQuery
-
-1. Instalamos a lib de conexão com o MySQL:
-        >npm install mysql
-2. Criamos um novo diretório:
-        @see infra
-   ...contendo a definição da conexão:
-        @see infra\connection.js
-3. Modificamos o arquivo
-        @see index.js
-   ...para tentar realizar a conexão com o banco de dados;
-4. Criamos o "migration" das tabelas do nosso BD em:
-        @see infra\tables.js
-5. Criamos o diretório:
-        @see models
-   ...contendo o modelo:
-        @see models\atendimentos.ts
-   ...o qual será responsável pela persistência das inoformações de atendimento
-6. Modificamos a rota Atendinentos / POST para realizar a criação do novo atendimento:
-        @see controllers\atendimentos.js
-
-Capítulo 04: Refatorando nosso código
-#migrations, #moment, #statusHttp, #businessRules
-
-1. Instalamos globalmente a lib de migrations e o seu driver mysql para nodeJS:
-        >npm install -g db-migrate
-        >npm install -g db-migrate-mysql
-2. Criamos o arquivo:
-        @see database.json
-3. Criamos nossas primeiras migration gerando DML SQL:
-        >db-migrate create createTableAtendimento --sql-file
-        >db-migrate create alterTableAtendimentoAddDates --sql-file     
-   Acrescentando as respectivas DMLs "up" & "down" em:
-        @see migrations\sqls
-4. Executamos todas as migrations criadas:
+1. Criamos a migration para criar a nova tabela de Pets, executando-a em seguida:
+        >db-migrate create createTablePets --sql-file
+        @see migrations\sqls\20210220152726-createTablePets-up.sql
         >db-migrate up
-5. Instalamos uma nova lib para lidar com datas horas independentemente de formato:
-        >npm install moment
-6. Inserimos algumas regras de negócio diretamente no método do modelo de atendimento:
+2. Criamos o model / controller e a validation CRUD para os Pets:
+        @see controllers\pets.js
+        @see models\pet.js
+        @see models\pet-validation.js
+3. Criamos uma função de upload de arquivos:
+        @see arquivos\upload.js
+4. Ajustamos o metodo "adiciona" do modelo Pet:
+        @see models\pet.js
+
+Capítulo 03: Serviços
+#async, #await, #axios
+
+1. Criamos um novo projeto em:
+        @see D:\wamp64\www\alura\api-rest-nodejs2
+2. Instalamos o axios (cliente HTTP):
+        >npm install axios
+3. Criamos a migration de alteração da tabela "atendimentos":
+        >db-migrate create alterTableAtendimentosForCPF --sql-file
+   ...modificamos os arquivos: 
+        @see migrations\sqls\20210222131758-alterTableAtendimentosForCPF-up.sql
+        @see migrations\sqls\20210222131758-alterTableAtendimentosForCPF-down.sql
+   ...e executamos:
+        >db-migrate up
+4. Modificamos o método buscaPorId do modelo Atendimento pra incluir o objeto cliente que é consultado
+   via axios pela app:
         @see models\atendimento.js
 
-Capítulo 05: Finalizando nossa API
-#patch, #put, #delete, #param, #validations
+Capítulo 04: Repositórios
+#promisse, #reject, #resolve
 
-1. Criamos uma rota pra listar todos os atendimentos
-2. Criamos uma rota para listar um atendimento em particular
-3. Criamos uma rota para alterar dados de um atendimento
-4. Criamos uma rota para excluir um atendimento
+1. Criamos a pasta:
+        @see repo
+2. Movemos a pasta de arquivos para infra:
+        @see infra
+3. Criamos uma função tipo "Promisse" que define o comportamento comum de uma "query":
+        @see infra\database\queries.js
+   
+Capítulo 05: Separando responsabilidades
+#repository, #promisse, #promisseThen, #promisseCatch 
+
+1. Criamos o:
+        @see repo\atendimento.js
+   Que é responsável pela a camada de "persistência de dados", desacoplando esta responsabilidade 
+   do "modelo de negócio";
+2. Refatoramos todos os métodos do controller, fazendo com que este só cuide da requisições e respostas, 
+   e os métodos do modelo, fazendo com que estes só realizem as transformações de modelo de negócio:
+        @see repo\atendimento.js
+        @see models\atendimento.js
         @see controllers\atendimentos.js
-        @see models\atendimento.js
-
-********************************* OBSEVAÇÕES ******************************************
-
-1. Para DEBUGAR nossa app NodeJS usando o VSCode, em:
-        @see package.json
-   ...alteramos o script de inicialização do nodemon para incluir a flag --inspect:
-        "start": "nodemon --inspect index.js";
-2. E, no VSCode, criamos o:
-        @see .vscode\launch.json
-   ...usando a opção do VSCode "Run", na select superior "Add config <DirProjeto>".
-   Isso cria o arquivo launch.json. 
-   Apagamos a o objeto dafult que estava no array "configurations", e, usando Ctr+Space, 
-   selecionamos "NodeJS Attach by Process ID". Isso recria o objeto de "configurations", 
-   monitorando o processo que será lançado ao clicar o "RUN/DEBUG".
-   Uma barra laranja inferior será mostrada assim que o debug iniciar.
-   Para finalizar a sessão debug, basta clicar em "disconnect" na barra de ferramentas 
-   de controle. 
+        @see infra\database\queries.js

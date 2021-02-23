@@ -5,7 +5,7 @@ const customExpress = require('./config/customExpress');
 /**
  * Tenta conexão com o BD
  */
-const conexao = require('./infra/connection');
+const conexao = require('./infra/database/connection');
 conexao.connect(erro => { 
     if(erro) {
         console.log(erro);

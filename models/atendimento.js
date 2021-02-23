@@ -1,17 +1,18 @@
-const conexao = require('../infra/connection');
+const conexao = require('../infra/database/connection');
 const moment = require('moment');
 const AtendimentoValidation = require('./atendimento-validation');
+const repo = require('../repo/atendimento');
+const { response } = require('express');
 
 /**
  * Modelo "Atendimento"
  */
 class Atendimento {
     /**
-     * Salva NOVO atendimento no BD
+     * Adiciona um novo atendimento
      * @param atendimento
-     * @param res 
      */
-    adiciona(atendimento, res) {
+    adiciona(atendimento) {
         /**
          * Data do atendimento que foi passada no formado DD/MM/YYYY convertida para ISO
          */
@@ -25,117 +26,59 @@ class Atendimento {
         const validacao = new AtendimentoValidation(atendimentoDatado);
 
         if(validacao.existemErros()) {
-            res.status(400).json(validacao.listaErros());
+            return new Promise( (resolve, reject) => reject(validacao.listaErros()));
         } else {
-            const sql = `INSERT INTO Atendimentos SET ?`;
-            conexao.query(sql, atendimentoDatado, (erro, resultados) => {
-                if(erro) {
-                    console.log(erro);
-                    /**
-                     * 400: Bad request
-                     */
-                    res.status(400).json(erro);
-                } else {
-                    console.log('Atendimento adicionado com sucesso');
-                    console.log(resultados);
-                    console.log(atendimentoDatado);
-                    /**
-                     * 201: Created 
-                     */    
-                    res.status(201).json({...resultados, atendimento : atendimentoDatado});
-                }
+            return repo.adiciona(atendimentoDatado).then( resultados => {
+                return {...resultados, atendimento : atendimentoDatado};
             });
         }
     }
 
     /**
-     * Lista todos os atendimentos
-     * @param {*} res 
+     * Lista todos os atendimentos 
      */
-    lista(res) {
-        const sql = `SELECT * FROM Atendimentos`;
-
-        conexao.query(sql, (erro, resultados) => {
-            if(erro) {
-                console.log(erro);
-                /**
-                 * 500: Internal server error
-                 */                
-                res.status(500).json(erro);
-            } else {
-                res.status(200).json(resultados);
-            }
-        });
+    lista() {
+        return repo.lista();
     }
 
     /**
      * Mostra o atendimento com o id 
      * @param {*} id 
-     * @param {*} res 
      */
-    buscaPorId(id, res) {
-        const sql = `SELECT * FROM Atendimentos WHERE id=?`;
-
-        conexao.query(sql, id, (erro, resultados) => {
-            if(erro) {
-                console.log(erro);
-                /**
-                 * 404: Not Found
-                 */                
-                res.status(404).json(erro);
-            } else {
-                const atendimento = resultados[0];
-                res.status(200).json(atendimento);
-            }
-        });        
+    buscaPorId(id) {
+        return repo.buscaPorId(id);      
     }
 
     /**
      * Modifica um atendimento com o id 
      * @param {*} id 
-     * @param {*} val 
-     * @param {*} res 
+     * @param {*} vals  
      */
-    altera(id, val, res) {
+    altera(id, vals) {
         let validacao = null;
         /**
          * Caso tenha Data do atendimento passada no formado DD/MM/YYYY é convertida para ISO
          */        
-        if(val.dataAtendimento) {
-            const dataAtendimento = moment(val.dataAtendimento, 'DD/MM/YYYY').format('YYYY-MM-DD HH:MM:SS');
-            val = {...val, dataAtendimento};
+        if(vals.dataAtendimento) {
+            const dataAtendimento = moment(vals.dataAtendimento, 'DD/MM/YYYY').format('YYYY-MM-DD HH:MM:SS');
+            vals = {...vals, dataAtendimento};
         }
-
-        validacao = new AtendimentoValidation(val);
+        validacao = new AtendimentoValidation(vals);
         if(validacao.existemErros()) {
-            res.status(400).json(validacao.listaErros());
+            return new Promise( (resolve, reject) => reject(validacao.listaErros()));
         } else {
-            const sql = `UPDATE Atendimentos SET ? WHERE id=?`;
-            conexao.query(sql, [val, id], (erro, resultados) => {
-                if(erro) {
-                    res.status(400).json(erro);
-                } else {
-                    res.status(200).json({...resultados, atendimento : val});
-                }
-            });
+            return repo.altera(id, vals).then( resultados => {
+                return {...resultados, atendimento : vals};
+            });            
         }
     }
 
     /**
      * Exclui o atendimento com o id
-     * @param {*} id 
-     * @param {*} res 
+     * @param {*} id  
      */
-    deleta(id, res) {
-        const sql = 'DELETE FROM Atendimentos WHERE id=?';
-
-        conexao.query(sql, id, (erro, resultados) => {
-            if(erro) {
-                res.status(400).json(erro);
-            } else {
-                res.status(200).json({...resultados, atendimento : {id} });
-            }
-        });
+    deleta(id) {
+        return repo.deleta(id);     
     }
 }
 

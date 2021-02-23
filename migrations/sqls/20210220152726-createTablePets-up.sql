@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS Pets (
+    id int NOT NULL AUTO_INCREMENT, 
+    nome VARCHAR(50),
+    imagem VARCHAR(200),
+    PRIMARY KEY(id)
+)
